@@ -28,7 +28,7 @@ const parseExerciseArguments = (args: string[]): ExerciseHourValues => {
     hours: values.slice(1),
     target: values[0]
   };
-}
+};
 
 const calculateExercises = (hours: number[], target: number): ExerciseInfoValues => {
   const periodLength = hours.length;
@@ -47,7 +47,7 @@ const calculateExercises = (hours: number[], target: number): ExerciseInfoValues
     target,
     average
   };
-}
+};
 
 try {
   const { hours, target } = parseExerciseArguments(process.argv);

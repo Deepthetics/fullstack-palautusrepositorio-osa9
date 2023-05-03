@@ -1,3 +1,4 @@
+import { Box, List, ListItem, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import patientService from '../../services/patients';
@@ -19,11 +20,34 @@ const PatientInfoPage = () => {
 
   return (
     <div>
-      <h2>{patient?.name}</h2>
-      <p>
-        ssn: {patient?.ssn}<br />
-        occupation: {patient?.occupation}
-      </p>
+      <Box sx={{ mt: 4 }}>
+        <Typography variant='h4' sx={{ mb: 2 }}>{patient?.name}</Typography>
+        <Typography variant='body2'>
+          ssn: {patient?.ssn}
+        </Typography>
+        <Typography variant='body2'>
+          occupation: {patient?.occupation}
+        </Typography>
+      </Box>
+      <Box sx={{ mt: 4 }}>
+        <Typography variant='h5'>
+          entries
+        </Typography>
+        {patient?.entries.map((entry) => (
+          <Box key={entry.id} sx={{ mt: 2 }}>
+            <Typography variant='body2'>
+              {entry.date}: {entry.description}
+            </Typography>
+            <List disablePadding={false}>
+              {entry.diagnosisCodes?.map((code) => (
+                <ListItem key={code}>
+                  <Typography variant='body2'>- {code}</Typography>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        ))}
+      </Box>
     </div>
   );
 };

@@ -39,13 +39,13 @@ interface SickLeave {
   endDate: string;
 }
 
-interface OccupationalHealthcare extends BaseEntry {
+interface OccupationalHealthcareEntry extends BaseEntry {
   type: 'OccupationalHealthcare'
   employerName: string;
   sickLeave?: SickLeave;
 }
 
-export type Entry = HealthCheckEntry | HospitalEntry | OccupationalHealthcare;
+export type Entry = HealthCheckEntry | HospitalEntry | OccupationalHealthcareEntry;
 
 export enum Gender {
   Male = 'male',

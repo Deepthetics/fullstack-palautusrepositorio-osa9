@@ -1,11 +1,13 @@
 import { Box, List, ListItem, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import diagnoseService from '../../services/diagnoses';
 import patientService from '../../services/patients';
-import { Patient } from '../../types';
+import { Diagnosis, Patient } from '../../types';
 
 const PatientInfoPage = () => {
   const [patient, setPatient] = useState<Patient | undefined>(undefined);
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -17,6 +19,14 @@ const PatientInfoPage = () => {
     };
     void fetchPatient();
   }, [id]);
+
+  useEffect(() => {
+    const fetchDiagnoses = async () => {
+      const diagnoses = await diagnoseService.getAll();
+      setDiagnoses(diagnoses);
+    };
+    void fetchDiagnoses();
+  }, []);
 
   return (
     <div>
@@ -39,11 +49,14 @@ const PatientInfoPage = () => {
               {entry.date}: {entry.description}
             </Typography>
             <List disablePadding={false}>
-              {entry.diagnosisCodes?.map((code) => (
+              {entry.diagnosisCodes?.map((code) => {
+                const diagnosis = diagnoses.find((d) => d.code === code);
+                return (
                 <ListItem key={code}>
-                  <Typography variant='body2'>- {code}</Typography>
+                  <Typography variant='body2'>- {code} {diagnosis?.name}</Typography>
                 </ListItem>
-              ))}
+                );
+              })}
             </List>
           </Box>
         ))}
